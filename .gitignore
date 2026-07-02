@@ -8,6 +8,10 @@
 배포 가이드/*.pem
 배포 가이드/*.key
 배포 가이드/*.csv
+배포 가이드/*.p12
+배포 가이드/.local-secrets/
+배포 가이드/*_secret*.md
+배포 가이드/*_시크릿*.md
 배포 가이드/.env*
 !배포 가이드/.env.prod.example
 
