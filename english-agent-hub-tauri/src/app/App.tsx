@@ -44,7 +44,7 @@ import { useAuthSession } from "../features/auth/model/useAuthSession";
 import { AppSidebar } from "../widgets/app-shell/ui/AppSidebar";
 import { AppTopbar } from "../widgets/app-shell/ui/AppTopbar";
 
-const appVersion = "0.1.4";
+const appVersion = "0.1.5";
 
 function createId() {
   return crypto.randomUUID();
