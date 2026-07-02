@@ -16,25 +16,27 @@ Repository → Settings → Secrets and variables → Actions → New repository
 
 ## 현재 등록된 값
 
-2026-07-03 기준으로 아래 값은 이미 등록되어 있다.
+2026-07-03 기준으로 아래 secret 이름은 모두 등록되어 있다.
 
 ```text
 APPLE_CERTIFICATE
 APPLE_CERTIFICATE_PASSWORD
 APPLE_ID
+APPLE_PASSWORD
 APPLE_SIGNING_IDENTITY
 APPLE_TEAM_ID
 TAURI_SIGNING_PRIVATE_KEY
 TAURI_SIGNING_PRIVATE_KEY_PASSWORD
 ```
 
-아직 등록해야 하는 값은 아래 1개다.
+단, `APPLE_PASSWORD` 값은 Apple ID 실제 로그인 비밀번호가 아니라 app-specific password여야 한다. 일반 Apple 계정 비밀번호를 넣으면 macOS notarization 단계에서 아래처럼 실패한다.
 
 ```text
-APPLE_PASSWORD
+HTTP status code: 401. Invalid credentials.
+Use the app-specific password generated at appleid.apple.com.
 ```
 
-`APPLE_PASSWORD`는 Apple ID 실제 비밀번호가 아니라 app-specific password다.
+이 경우 GitHub secret 이름은 그대로 두고 값만 앱 암호로 교체하면 된다.
 
 ## APPLE_PASSWORD 발급
 
@@ -69,6 +71,8 @@ https://github.com/dota-pilot1/aegis-english/settings/secrets/actions
 ```bash
 gh secret set APPLE_PASSWORD --repo dota-pilot1/aegis-english
 ```
+
+이미 `APPLE_PASSWORD` secret이 있어도 같은 명령으로 덮어쓰면 된다.
 
 ## 로컬 복붙용 파일
 
