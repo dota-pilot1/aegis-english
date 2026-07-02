@@ -216,8 +216,9 @@ const starterPrompts = [
   "Tell me about life in the U.S.",
 ];
 
-const defaultApiUrl = "http://localhost:3301";
-const appVersion = "0.1.0";
+const defaultApiUrl =
+  import.meta.env.VITE_API_URL ?? (import.meta.env.DEV ? "http://localhost:3301" : "https://dxline-tallent.com");
+const appVersion = "0.1.2";
 
 const QUESTION_DIFFICULTY_OPTIONS: SelectOption<QuestionDifficulty | "">[] = [
   { value: "", label: "전체 난이도" },

@@ -18,7 +18,7 @@ cors:
 EC2 `.env`:
 
 ```env
-ALLOWED_ORIGIN=https://dxline-tallent.com
+ALLOWED_ORIGIN=https://dxline-tallent.com,tauri://localhost,http://tauri.localhost
 ```
 
 쉼표로 여러 개를 줄 수 있다:
@@ -75,7 +75,7 @@ curl -sI https://dxline-tallent.com/api/site-settings \
 
 ## 흔한 문제
 
-- **`No 'Access-Control-Allow-Origin'`**: `.env`의 `ALLOWED_ORIGIN` 값에 끝 슬래시(`/`)가 들어가 있거나 `https` 누락. 정확히 `https://dxline-tallent.com`.
+- **`No 'Access-Control-Allow-Origin'`**: `.env`의 `ALLOWED_ORIGIN` 값에 끝 슬래시(`/`)가 들어가 있거나 `https` 누락. 웹은 `https://dxline-tallent.com`, Tauri 앱은 `tauri://localhost,http://tauri.localhost`를 포함해야 한다.
 - **credentials 요청만 실패**: `allowCredentials=true`인데 `allowedOrigins`가 `*`이면 안 된다. 명시적 도메인만 허용.
 - **로컬에서만 안 됨**: `.env`에 `,http://localhost:4300`을 추가해 두 origin 허용.
 - **S3에서 직접 fetch하다 CORS 에러**: 그런 흐름이 없도록 만든다. 정적 파일은 CloudFront(`dxline-tallent.com`)에서만 서빙.
