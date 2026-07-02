@@ -38,8 +38,9 @@ BeautyBook은 운영 중단하고, 그 인프라(EC2/Nginx/Route 53/CloudFront/S
 ├── 아키텍처.md             ← 토폴로지 다이어그램
 ├── 백엔드 배포.md          ← EC2 작업 (Postgres 추가, systemd, env, JAR)
 ├── 프론트엔드 배포.md      ← 로컬 빌드, S3 sync, CloudFront 무효화
+├── Tauri 앱 배포 운영.md    ← 데스크톱 앱 릴리즈, CORS, 서명/공증 검증
 ├── Nginx 설정.md           ← 4101 → 4301 전환
-├── CORS 설정.md            ← ALLOWED_ORIGIN=https://dxline-tallent.com
+├── CORS 설정.md            ← 웹/Tauri Origin 허용값
 └── .env.prod.example       ← 운영 환경변수 템플릿
 ```
 
@@ -85,7 +86,7 @@ BeautyBook은 운영 중단하고, 그 인프라(EC2/Nginx/Route 53/CloudFront/S
 - `API_KEY_SECRET`: 56바이트 이상, JWT와는 **다른 값**. base는 `hyun0316!@-eah-prod-aes-` + 24자 랜덤.
   - ⚠️ **한 번 정하면 절대 변경 금지** — 저장된 사용자 OpenAI 키 복호화가 불가능해진다.
 - `OPENAI_API_KEY`: 비워둠. 시스템 폴백 사용 안 함. 각 사용자가 프로필에서 본인 OpenAI 키를 등록한다.
-- `ALLOWED_ORIGIN`: `https://dxline-tallent.com`.
+- `ALLOWED_ORIGIN`: `https://dxline-tallent.com,tauri://localhost,http://tauri.localhost`.
 
 ### 시크릿 재배포
 
