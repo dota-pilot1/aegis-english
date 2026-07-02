@@ -31,6 +31,20 @@ APPLE_TEAM_ID
 
 Apple secrets 값 자체는 Git에 올리지 않는다. 로컬 전용 메모는 `배포 가이드/로컬_Apple_서명_공증_메모.md`에 둔다.
 
+현재 secret 등록 여부는 아래 명령으로 확인한다.
+
+```bash
+gh secret list --repo dota-pilot1/aegis-english
+```
+
+`APPLE_*` secrets가 없으면 GitHub Actions의 macOS job은 앱 빌드 후 코드서명 단계에서 실패한다. 로컬 Mac keychain에 Developer ID 인증서가 있으면 로컬 빌드는 가능하지만, GitHub runner에는 인증서가 없으므로 repo secrets 등록이 필요하다.
+
+2026-07-03 기준 확인된 상태:
+
+- `TAURI_SIGNING_PRIVATE_KEY`, `TAURI_SIGNING_PRIVATE_KEY_PASSWORD`는 등록되어 있어 Windows 릴리즈 빌드는 성공한다.
+- `APPLE_CERTIFICATE`, `APPLE_CERTIFICATE_PASSWORD`, `APPLE_SIGNING_IDENTITY`, `APPLE_ID`, `APPLE_PASSWORD`, `APPLE_TEAM_ID`는 `aegis-english` repo에 등록해야 한다.
+- 로컬 keychain에는 `Developer ID Application: Hyunseok oh (5PRM3RRTSH)` identity가 있다.
+
 ## 운영 API 확인
 
 배포 앱은 로컬 서버가 아니라 운영 API를 바라봐야 한다.
@@ -184,6 +198,15 @@ Apple Developer ID 서명/공증이 안 된 빌드다.
 
 - 테스트만 할 때는 quarantine 제거로 열 수 있다.
 - 외부 배포는 Apple secrets 등록 후 새 릴리즈를 만들어야 한다.
+
+GitHub Actions 로그에 아래 메시지가 나오면 repo의 Apple certificate secret이 없거나 잘못된 것이다.
+
+```text
+security: SecKeychainItemImport: One or more parameters passed to a function were not valid.
+failed codesign application: failed to import keychain certificate
+```
+
+해결은 `APPLE_CERTIFICATE`에 p12 파일을 base64 인코딩한 값을 넣고, `APPLE_CERTIFICATE_PASSWORD`에 p12 export 비밀번호를 넣는 것이다.
 
 ### 릴리즈 asset은 있는데 앱이 업데이트되지 않음
 
