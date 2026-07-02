@@ -50,11 +50,17 @@ jobs:
           VITE_API_URL: https://dxline-tallent.com
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
+          APPLE_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+          APPLE_SIGNING_IDENTITY: ${{ secrets.APPLE_SIGNING_IDENTITY }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          APPLE_PASSWORD: ${{ secrets.APPLE_PASSWORD }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         with:
           projectPath: english-agent-hub-tauri
           tagName: ${{ github.ref_name }}
           releaseName: "AEGIS English ${{ github.ref_name }}"
-          releaseBody: "자동 빌드된 릴리스입니다. Windows는 .exe 설치 파일을 받아 설치하세요. macOS는 Apple 서명/공증 secrets 등록 전까지 Gatekeeper 경고가 표시될 수 있습니다."
+          releaseBody: "자동 빌드된 릴리스입니다. macOS는 .dmg, Windows는 .exe 설치 파일을 받아 설치하세요."
           releaseDraft: false
           prerelease: false
           args: ${{ matrix.args }}
