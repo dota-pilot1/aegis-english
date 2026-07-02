@@ -1,0 +1,117 @@
+package com.cj.englishagenthub.ai.infrastructure;
+
+import com.cj.englishagenthub.auth.security.UserPrincipal;
+import com.cj.englishagenthub.common.security.ApiKeyCipher;
+import com.cj.englishagenthub.user.domain.User;
+import com.cj.englishagenthub.user.infrastructure.UserRepository;
+import com.openai.client.OpenAIClient;
+import com.openai.client.OpenAIClientAsync;
+import com.openai.client.okhttp.OpenAIOkHttpClient;
+import com.openai.client.okhttp.OpenAIOkHttpClientAsync;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.openai.OpenAiChatModel;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+
+/**
+ * 현재 인증된 유저의 OpenAI API 키를 우선 사용하고, 없으면 시스템 기본 키로 폴백한다.
+ * - ChatClient.Builder : Spring AI 채팅용
+ * - getEffectiveApiKey(): 직접 RestClient를 쓰는 realtime/transcribe/speech용
+ */
+@Component
+@RequiredArgsConstructor
+@Slf4j
+public class OpenAiClientResolver {
+
+    private final UserRepository userRepository;
+    private final ApiKeyCipher apiKeyCipher;
+    private final ObjectProvider<ChatClient.Builder> systemChatClientBuilderProvider;
+
+    @Value("${spring.ai.openai.api-key:}")
+    private String systemOpenAiApiKey;
+
+    /** 현재 인증된 유저의 평문 OpenAI 키. 없으면 null. */
+    public String currentUserOpenAiKey() {
+        Long userId = currentUserIdOrNull();
+        if (userId == null) return null;
+        return userRepository.findById(userId)
+                .filter(User::hasOpenAiApiKey)
+                .map(u -> {
+                    try {
+                        return apiKeyCipher.decrypt(u.getOpenAiApiKeyEncrypted());
+                    } catch (Exception e) {
+                        log.warn("Failed to decrypt OpenAI key for user {}", userId);
+                        return null;
+                    }
+                })
+                .orElse(null);
+    }
+
+    /** 실제 호출에 쓸 키 — 유저 키 > 시스템 키. 둘 다 없으면 null. */
+    public String getEffectiveApiKey() {
+        String user = currentUserOpenAiKey();
+        if (StringUtils.hasText(user)) return user;
+        return StringUtils.hasText(systemOpenAiApiKey) ? systemOpenAiApiKey : null;
+    }
+
+    public boolean hasUsableKey() {
+        return StringUtils.hasText(getEffectiveApiKey());
+    }
+
+    /** Spring AI ChatClient.Builder. 유저 키가 있으면 그 키로 새 빌더, 없으면 시스템 빈을 그대로. */
+    public ChatClient.Builder resolveChatClientBuilder() {
+        String userKey = currentUserOpenAiKey();
+        if (StringUtils.hasText(userKey)) {
+            // Spring AI 2.0-M7의 OpenAiChatModel은 .call()용 동기 클라이언트와
+            // .stream()용 비동기 클라이언트를 둘 다 받는다. 둘 중 하나만 주면
+            // 다른 쪽은 환경변수 OPENAI_API_KEY로 fallback해서 비어 있으면
+            // "This request requires apiKey" 예외가 난다.
+            OpenAIClient sdkClient = OpenAIOkHttpClient.builder()
+                    .apiKey(userKey)
+                    .build();
+            OpenAIClientAsync sdkClientAsync = OpenAIOkHttpClientAsync.builder()
+                    .apiKey(userKey)
+                    .build();
+            OpenAiChatModel model = OpenAiChatModel.builder()
+                    .openAiClient(sdkClient)
+                    .openAiClientAsync(sdkClientAsync)
+                    .build();
+            return ChatClient.builder(model);
+        }
+        return systemChatClientBuilderProvider.getIfAvailable();
+    }
+
+    /**
+     * 임의의 OpenAI 호환 엔드포인트(예: Gemini의 OpenAI 호환 레이어, DeepSeek)용 ChatClient.Builder.
+     * base URL과 키를 직접 주입한다.
+     */
+    public ChatClient.Builder chatClientFor(String apiKey, String baseUrl) {
+        OpenAIClient sdkClient = OpenAIOkHttpClient.builder()
+                .apiKey(apiKey)
+                .baseUrl(baseUrl)
+                .build();
+        OpenAIClientAsync sdkClientAsync = OpenAIOkHttpClientAsync.builder()
+                .apiKey(apiKey)
+                .baseUrl(baseUrl)
+                .build();
+        OpenAiChatModel model = OpenAiChatModel.builder()
+                .openAiClient(sdkClient)
+                .openAiClientAsync(sdkClientAsync)
+                .build();
+        return ChatClient.builder(model);
+    }
+
+    private Long currentUserIdOrNull() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !auth.isAuthenticated()) return null;
+        Object principal = auth.getPrincipal();
+        if (principal instanceof UserPrincipal up) return up.getId();
+        return null;
+    }
+}

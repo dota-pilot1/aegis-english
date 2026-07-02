@@ -1,0 +1,15 @@
+export const common = {
+  brand: "AEGIS",
+  tagline: "문항 생성과 문제 은행 운영을 위한 관리자 콘솔입니다.",
+  description: "시험지 추출, 문항 생성, 검수, 배포 흐름을 한곳에서 관리합니다.",
+  loading: "처리 중...",
+  confirm: "확인",
+  cancel: "취소",
+  save: "저장",
+  delete: "삭제",
+  edit: "편집",
+  close: "닫기",
+  search: "검색",
+  language: "언어",
+  theme: "테마",
+};

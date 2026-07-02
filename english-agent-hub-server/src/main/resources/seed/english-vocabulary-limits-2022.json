@@ -1,0 +1,146 @@
+[
+  {
+    "curriculumVersion": "2022 개정",
+    "schoolLevel": "초등학교",
+    "subjectGroup": "초등학교",
+    "subjectName": "초등학교 3∼4학년",
+    "wordLimit": 300,
+    "note": null,
+    "sortOrder": 1
+  },
+  {
+    "curriculumVersion": "2022 개정",
+    "schoolLevel": "초등학교",
+    "subjectGroup": "초등학교",
+    "subjectName": "초등학교 5∼6학년",
+    "wordLimit": 300,
+    "note": "누계: 600단어 이내",
+    "sortOrder": 2
+  },
+  {
+    "curriculumVersion": "2022 개정",
+    "schoolLevel": "중학교",
+    "subjectGroup": "중학교",
+    "subjectName": "중학교 1∼3학년",
+    "wordLimit": 1500,
+    "note": null,
+    "sortOrder": 3
+  },
+  {
+    "curriculumVersion": "2022 개정",
+    "schoolLevel": "고등학교",
+    "subjectGroup": "공통과목",
+    "subjectName": "기본영어 1, 2",
+    "wordLimit": 1600,
+    "note": "기본영어와 공통영어의 어휘 수는 각각 1과 2의 합본 상태의 어휘 수를 말한다.",
+    "sortOrder": 4
+  },
+  {
+    "curriculumVersion": "2022 개정",
+    "schoolLevel": "고등학교",
+    "subjectGroup": "공통과목",
+    "subjectName": "공통영어 1, 2",
+    "wordLimit": 1800,
+    "note": "기본영어와 공통영어의 어휘 수는 각각 1과 2의 합본 상태의 어휘 수를 말한다.",
+    "sortOrder": 5
+  },
+  {
+    "curriculumVersion": "2022 개정",
+    "schoolLevel": "고등학교",
+    "subjectGroup": "일반 선택",
+    "subjectName": "영어Ⅰ",
+    "wordLimit": 2000,
+    "note": null,
+    "sortOrder": 6
+  },
+  {
+    "curriculumVersion": "2022 개정",
+    "schoolLevel": "고등학교",
+    "subjectGroup": "일반 선택",
+    "subjectName": "영어 독해와 작문",
+    "wordLimit": 2200,
+    "note": null,
+    "sortOrder": 7
+  },
+  {
+    "curriculumVersion": "2022 개정",
+    "schoolLevel": "고등학교",
+    "subjectGroup": "일반 선택",
+    "subjectName": "영어Ⅱ",
+    "wordLimit": 2500,
+    "note": null,
+    "sortOrder": 8
+  },
+  {
+    "curriculumVersion": "2022 개정",
+    "schoolLevel": "고등학교",
+    "subjectGroup": "진로 선택",
+    "subjectName": "직무 영어",
+    "wordLimit": 2000,
+    "note": null,
+    "sortOrder": 9
+  },
+  {
+    "curriculumVersion": "2022 개정",
+    "schoolLevel": "고등학교",
+    "subjectGroup": "진로 선택",
+    "subjectName": "영어 발표와 토론",
+    "wordLimit": 2500,
+    "note": null,
+    "sortOrder": 10
+  },
+  {
+    "curriculumVersion": "2022 개정",
+    "schoolLevel": "고등학교",
+    "subjectGroup": "진로 선택",
+    "subjectName": "심화 영어",
+    "wordLimit": 2800,
+    "note": null,
+    "sortOrder": 11
+  },
+  {
+    "curriculumVersion": "2022 개정",
+    "schoolLevel": "고등학교",
+    "subjectGroup": "진로 선택",
+    "subjectName": "영미 문학 읽기",
+    "wordLimit": 3000,
+    "note": null,
+    "sortOrder": 12
+  },
+  {
+    "curriculumVersion": "2022 개정",
+    "schoolLevel": "고등학교",
+    "subjectGroup": "진로 선택",
+    "subjectName": "심화 영어 독해와 작문",
+    "wordLimit": 3500,
+    "note": null,
+    "sortOrder": 13
+  },
+  {
+    "curriculumVersion": "2022 개정",
+    "schoolLevel": "고등학교",
+    "subjectGroup": "융합 선택",
+    "subjectName": "실생활 영어 회화",
+    "wordLimit": 1500,
+    "note": null,
+    "sortOrder": 14
+  },
+  {
+    "curriculumVersion": "2022 개정",
+    "schoolLevel": "고등학교",
+    "subjectGroup": "융합 선택",
+    "subjectName": "미디어 영어",
+    "wordLimit": 2000,
+    "note": null,
+    "sortOrder": 15
+  },
+  {
+    "curriculumVersion": "2022 개정",
+    "schoolLevel": "고등학교",
+    "subjectGroup": "융합 선택",
+    "subjectName": "세계 문화와 영어",
+    "wordLimit": 2200,
+    "note": null,
+    "sortOrder": 16
+  }
+]

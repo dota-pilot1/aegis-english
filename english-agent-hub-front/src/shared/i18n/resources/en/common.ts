@@ -1,0 +1,15 @@
+export const common = {
+  brand: "AEGIS",
+  tagline: "Admin console for question generation and question bank operations.",
+  description: "Manage exam extraction, question generation, review, and publishing in one place.",
+  loading: "Loading...",
+  confirm: "Confirm",
+  cancel: "Cancel",
+  save: "Save",
+  delete: "Delete",
+  edit: "Edit",
+  close: "Close",
+  search: "Search",
+  language: "Language",
+  theme: "Theme",
+};

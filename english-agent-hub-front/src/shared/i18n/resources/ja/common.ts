@@ -1,0 +1,15 @@
+export const common = {
+  brand: "AEGIS",
+  tagline: "問題生成と問題バンク運用のための管理コンソールです。",
+  description: "試験抽出、問題生成、レビュー、配信までを一か所で管理します。",
+  loading: "読み込み中...",
+  confirm: "確認",
+  cancel: "キャンセル",
+  save: "保存",
+  delete: "削除",
+  edit: "編集",
+  close: "閉じる",
+  search: "検索",
+  language: "言語",
+  theme: "テーマ",
+};

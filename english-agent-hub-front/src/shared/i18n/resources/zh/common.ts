@@ -1,0 +1,15 @@
+export const common = {
+  brand: "AEGIS",
+  tagline: "用于题目生成与题库运营的管理控制台。",
+  description: "集中管理试卷提取、题目生成、审核与发布流程。",
+  loading: "处理中...",
+  confirm: "确认",
+  cancel: "取消",
+  save: "保存",
+  delete: "删除",
+  edit: "编辑",
+  close: "关闭",
+  search: "搜索",
+  language: "语言",
+  theme: "主题",
+};

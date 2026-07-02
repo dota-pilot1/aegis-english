@@ -1,0 +1,91 @@
+server:
+  port: ${SERVER_PORT:3301}
+  # nginx/CloudFront 뒤에서 X-Forwarded-* 를 신뢰해 springdoc 서버 URL(try-out 대상)을 올바른 호스트로 생성
+  forward-headers-strategy: framework
+
+springdoc:
+  # OpenAPI 스펙을 /api/ 밑으로 둬서 기존 nginx /api/ 프록시를 그대로 탄다 (nginx/CloudFront 무수정).
+  # /api/** 는 SecurityConfig 기본 규칙상 인증 필요 → 로그인한 관리자만 스펙 조회 가능.
+  api-docs:
+    path: /api/docs
+  # springdoc 기본 Swagger UI(무인증 공개 페이지)는 끄고, 프론트의 보호된 /api-docs 페이지에 임베드해서 노출한다.
+  swagger-ui:
+    enabled: false
+
+spring:
+  application:
+    name: english-agent-hub-server
+
+  servlet:
+    multipart:
+      max-file-size: 25MB
+      max-request-size: 25MB
+
+  config:
+    import:
+      - optional:file:../.env[.properties]
+      - optional:file:.env[.properties]
+      - optional:classpath:application-local.yaml
+
+  datasource:
+    url: jdbc:postgresql://localhost:5436/english_agent_hub
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+    show-sql: false
+
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY:}
+      chat:
+        options:
+          model: ${OPENAI_CHAT_MODEL:gpt-5-mini}
+          temperature: 1
+      embedding:
+        options:
+          model: ${OPENAI_EMBEDDING_MODEL:text-embedding-3-small}
+
+gemini:
+  # Google AI Studio 키(AIza...). OpenAI 호환 레이어로 호출한다. 비우면 추출은 OpenAI로 폴백.
+  api-key: ${GEMINI_API_KEY:}
+  base-url: ${GEMINI_BASE_URL:https://generativelanguage.googleapis.com/v1beta/openai}
+  model: ${GEMINI_MODEL:gemini-2.5-flash}
+
+openai:
+  translation:
+    model: ${OPENAI_TRANSLATION_MODEL:gpt-5-nano}
+  transcribe:
+    model: ${OPENAI_TRANSCRIBE_MODEL:gpt-4o-mini-transcribe}
+  realtime:
+    model: ${OPENAI_REALTIME_MODEL:gpt-realtime-2}
+    voice: ${OPENAI_REALTIME_VOICE:marin}
+
+app:
+  security:
+    api-key-secret: ${API_KEY_SECRET:english-agent-hub-dev-api-key-secret-change-in-production}
+
+cors:
+  allowed-origin: ${ALLOWED_ORIGIN:http://localhost:3300,http://localhost:1421,http://127.0.0.1:1421}
+
+jwt:
+  secret: ${JWT_SECRET:english-agent-hub-dev-secret-key-must-be-at-least-32-bytes-long}
+  access-token-expiration-ms: 1800000
+  refresh-token-expiration-ms: 604800000
+  issuer: english-agent-hub
+
+aws:
+  s3:
+    access-key: ${AWS_ACCESS_KEY_ID:}
+    secret-key: ${AWS_SECRET_ACCESS_KEY:}
+    bucket: ${AWS_S3_BUCKET_NAME:}
+    region: ${AWS_S3_REGION:ap-northeast-2}
+    prefix: ${AWS_S3_PREFIX:english-agent-hub}
+    presign-expires-seconds: 300
