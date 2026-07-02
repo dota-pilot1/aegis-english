@@ -218,7 +218,7 @@ const starterPrompts = [
 
 const defaultApiUrl =
   import.meta.env.VITE_API_URL ?? (import.meta.env.DEV ? "http://localhost:3301" : "https://dxline-tallent.com");
-const appVersion = "0.1.2";
+const appVersion = "0.1.3";
 
 const QUESTION_DIFFICULTY_OPTIONS: SelectOption<QuestionDifficulty | "">[] = [
   { value: "", label: "전체 난이도" },
