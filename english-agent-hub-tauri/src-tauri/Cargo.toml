@@ -1,6 +1,6 @@
 [package]
 name = "english-agent-hub-tauri"
-version = "0.1.7"
+version = "0.1.8"
 description = "AEGIS English desktop app"
 authors = ["AEGIS"]
 edition = "2021"
