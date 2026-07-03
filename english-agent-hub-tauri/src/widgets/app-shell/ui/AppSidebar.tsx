@@ -28,7 +28,7 @@ export function AppSidebar({
   return (
     <aside className="app-sidebar">
       <div className="sidebar-brand">
-        <button className="sidebar-brand-mark" onClick={() => onOpenMenu("englishConversation")} title="영어 회화">
+        <button className="sidebar-brand-mark" onClick={() => onOpenMenu("practice")} title="시험 응시">
           <Bot size={19} />
         </button>
         <div>
@@ -38,7 +38,7 @@ export function AppSidebar({
       </div>
 
       <div className="sidebar-section">
-        <div className="sidebar-kicker">Header menu</div>
+        <div className="sidebar-kicker">Personal app</div>
         <nav className="sidebar-menu">
           {menus.map((menu) => {
             const Icon = menu.icon;
